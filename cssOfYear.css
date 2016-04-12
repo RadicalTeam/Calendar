@@ -27,13 +27,23 @@ table th span{
 	height:53px;
 	line-height: 53px;
 }
+label{
+	display:inline-block;
+	width:150px;
+	height:40px;
+}
+input,select{
+	vertical-align: middle;
+}
 #selectyear,#selectmonth{
 	width:100px;
 	height:40px;
 	font-size: 16px;
 	font-family: "黑体";
+
 }
 .near{
+	margin-top: 0;
 	border:solid #bbb 1px;
 	font-family: "微软雅黑";
 	font-weight: bold;
