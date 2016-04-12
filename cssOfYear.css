@@ -25,36 +25,30 @@ table th span{
 	height:53px;
 	line-height: 53px;
 }
-#selectyear{
+#selectyear,#selectmonth{
 	width:100px;
-}
-#selectmonth{
-	width:100px;
-}
-#preYear{
-	margin-right:-10px;
-}
-#nextYear{
-	margin-left: -10px;
-}
-#preMonth{
-	margin-right: -10px;
-}
-#nextMonth{
-	margin-left: -10px;
+	height:40px;
+	font-size: 16px;
+	font-family: "黑体";
 }
 .near{
-	border:solid #ccc 1px;
+	border:solid #bbb 1px;
 	font-family: "微软雅黑";
 	font-weight: bold;
+	width:20px;
+	 height:40px;
 	color:#fff;
+	background-color: rgb(243,217,203)
 }
 #backToday{
 	border:solid rgba(200,200,200,.4) 1px;
 	background-color: rgb(255,255,255);
-	width: 70px;
-	height: 20px;
+	width: 90px;
+	font-size: 16px;
+	font-family: "微软雅黑";
+	height: 40px;
 	margin-right: 10px;
+	border:solid #bbb 1px;
 }
 #showTimes{
 	text-align: left;
