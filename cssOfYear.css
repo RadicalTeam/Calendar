@@ -2,18 +2,20 @@
 	padding:0;
 	margin:0;
 }
+body{
+	background:url(2.jpg) no-repeat center;
+}
 #container{
 	display: flex;
-	height:700px;
+	height:600px;
 }
-
 table{
 	text-align: center;
 	width:600px;
 	height:500px;
 	margin:auto;
 	border:solid rgba(100,100,100,.5) 1px;
-	box-shadow: 3px 3px rgba(90,90,90,0.5)
+	box-shadow: 3px 3px  3px rgba(90,90,90,0.5)
 }
 table th span{
 	color:rgba(20,20,20,0.7);

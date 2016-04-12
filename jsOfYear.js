@@ -169,7 +169,3 @@
 		 show_Today();
 	}
 	init();
-	var start=new Date(1990,0,1);
-	var end=new Date(2016,4,10);
-	var div1=3600*24000;
-	var divl=parseInt(end-start)/div1;
