@@ -1,0 +1,128 @@
+*{
+	padding:0;
+	margin:0;
+}
+#container{
+	display: flex;
+	height:700px;
+}
+
+table{
+	text-align: center;
+	width:600px;
+	height:500px;
+	margin:auto;
+	border:solid rgba(100,100,100,.5) 1px;
+	box-shadow: 3px 3px rgba(90,90,90,0.5)
+}
+table th span{
+	color:rgba(20,20,20,0.7);
+	font-size: 10px;
+	font-weight: 50%;
+}
+#select{
+	display:inline-block;
+	height:53px;
+	line-height: 53px;
+}
+#selectyear{
+	width:100px;
+}
+#selectmonth{
+	width:100px;
+}
+#preYear{
+	margin-right:-10px;
+}
+#nextYear{
+	margin-left: -10px;
+}
+#preMonth{
+	margin-right: -10px;
+}
+#nextMonth{
+	margin-left: -10px;
+}
+.near{
+	border:solid #ccc 1px;
+	font-family: "微软雅黑";
+	font-weight: bold;
+	color:#fff;
+}
+#backToday{
+	border:solid rgba(200,200,200,.4) 1px;
+	background-color: rgb(255,255,255);
+	width: 70px;
+	height: 20px;
+	margin-right: 10px;
+}
+#showTimes{
+	text-align: left;
+	display:inline-block;
+	width:165px;
+	height:53px;
+	float:right;
+}
+#showToday{
+	display: inline-block;
+	width:95px;
+	height:20px;
+
+}
+#beijingTime{
+	display: inline-block;
+	width:57px;
+	height:20px;
+}
+table th{
+	background-color: rgba(200,70,0,0.2)
+}
+table td{
+	width:85px;
+	height:61px;
+}
+.weekday{
+	background-color: rgba(50,200,0,0.5);
+}
+.monday{
+	background-color: rgba(100,0,50,0.5);
+}
+.thuesday{
+	background-color: rgba(150,50,0,0.5);
+}
+.wensday{
+	background-color: rgba(100,10,30,0.5);
+}
+.thursday{
+	background-color: rgba(50,0,50,0.5);
+}
+.friday{
+	background-color: rgba(60,10,50,0.5);
+}
+.staurday{
+	background-color: rgba(20,100,50,0.5);
+}
+.sunday{
+	background-color: rgba(20,120,70,0.5);
+}
+.sfestival{
+	color:rgba(240,247,2,.6);
+	font-size:10px;
+	font-family: "微软雅黑";
+}
+.lfestival{
+	font-weight: bold;
+	font-size: 11px;
+	font-family: "微软雅黑";
+	color:rgb(228,23,31);
+}
+.solarTerm{
+	font-weight: bold;
+	font-size: 10px;
+	color:rgb(242,66,14);
+}
+.lunar{
+	font-weight: bold;
+	font-size: 11px;
+	font-family: "微软雅黑";
+}
