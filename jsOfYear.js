@@ -5,19 +5,13 @@
 	var backToday=document.getElementById('backToday');
 	var find=new Date();
 	var beijingTime=document.getElementById('beijingTime');
-	
-	//设置每月的天数
-	var DaysOfMonth={
-		1:31,2:[28,29],3:31,4:30,5:31,6:30,7:31,8:31,9:30,10:31,11:30,12:31
-	}
 	var lunarName=["初一","初二","初三","初四","初五","初六","初七","初八","初九","初十","十一","十二","十三","十四","十五",
-			"十六","十七","十八","十九","廿","廿一","廿二","廿三","廿四","廿五","廿六","廿七","廿八","廿九","卅"];
+			"十六","十七","十八","十九","廿","廿一","廿二","廿三","廿四","廿五","廿六","廿七","廿八","廿九","卅",
+			"二月","三月","四月","五月","六月","七月","八月","九月","十月","冬月","腊月"];
 	//根据选择设置当前要跳转的年份
 	function Get_year(){
 		var index=select_year.selectedIndex;
 		find.setFullYear(select_year.options[index].value);
-		var index=select_month.selectedIndex;
-		find.setMonth(index,1);
 		findplace();
 }
 	select_year.onchange=Get_year;
@@ -44,6 +38,13 @@
 		toNextYear();
 		findplace();
 	};
+	//根据选择设置当前的月份
+	function Get_month(){
+		var index=select_month.selectedIndex;
+		find.setMonth(index);
+		findplace();
+	}
+	select_month.onchange=Get_month;
 	//跳转到上一月
 	var preMonth=document.getElementById('preMonth');
 	function toPreMonth(){
@@ -85,13 +86,7 @@
 		var nowD=newDay.getDate();
 		showToday.innerHTML=nowY+"年"+nowM+"月"+nowD+"日";
 	}
-	//根据选择设置当前的月份
-	function Get_month(){
-		var index=select_month.selectedIndex;
-		find.setMonth(index,1);
-		findplace();
-	}
-	select_month.onchange=Get_month;
+	
 
 	var days=document.getElementsByClassName('day');
 	//根据所选日期渲染页面
@@ -113,8 +108,10 @@
 					if(findSolarTerm(indexDay))
 					days[index].innerHTML+="<span class='solarTerm'>"+findSolarTerm(indexDay)+"</span><br>";
 			}
+					else if(lunarDay[2]==1&&lunarDay[1]!=1)
+						days[index].innerHTML+="<span class='lunar'>"+lunarName[28+lunarDay[1]]+"</span>";
 					else
-					days[index].innerHTML+="<span class='lunar'>"+lunarName[lunarDay[2]-1]+"</span>";
+						days[index].innerHTML+="<span class='lunar'>"+lunarName[lunarDay[2]-1]+"</span>";
 				indexDay.setDate(indexDay.getDate()+1);
 			}
 			else
@@ -151,9 +148,8 @@
 	setInterval("showTime()",1000);
 	//初始化页面
 	function init(){
-		var D=new Date();
-		var nowyear=D.getFullYear();
-		var nowmonth=D.getMonth();
+		var nowyear=find.getFullYear();
+		var nowmonth=find.getMonth();
 		for(index in select_year.options){
 			if(select_year.options[index].value==nowyear) {
 				select_year.options[index].selected="selected";

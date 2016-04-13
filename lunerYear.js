@@ -1,4 +1,7 @@
-//从1900到2049年的农历数据
+//从1900到2049年的农历数据公用20位来标记，前四位和后四位使用来标记，
+//后四位用来表明润的是几月，当全为0时表示当年不用润月，前四位用来标记
+//该年份是润大月还是润小月，他们在后四位不等于0的时候才有效。中间12位
+//用来标记当年每月是大月还是小月，0表示小月，1表示大月
 var lunarInfo = new Array(
 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,
 0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,
@@ -55,7 +58,6 @@ var lFtv ={
 		"9-9":"重阳节",
 		"12-8":"腊八节",
 		"12-23":"小年",
-		"1-00":"*除夕"
 		};
 //二十四节气
 var solarTerms={
@@ -85,116 +87,119 @@ var solarTerms={
 	"2017-1-20":"大寒"
 }
 //农历的渲染
+//起始的日期为1900.1.31
 	function renderLuner(){
 		var startDay=new Date(1900,1,31);
 		var distance=parseInt(find-startDay)/(3600*24*1000);
 	}
-//根据数据获取每年的天数
+//根据数据获取每年的天数，每个农历月至少有29天，所以基数为348，
+//在加上大月多出来的一天和闰月的天数即得到该年的天数
 	function lYearDays(y) {
-   var i, sum = 348;
-   for(i=0x8000; i>0x8; i>>=1) sum += (lunarInfo[y-1900] & i)? 1: 0;
-   return(sum+leapDays(y));
-}
+		   var i, sum = 348;
+		   for(i=0x8000; i>0x8; i>>=1) 
+		   	sum += (lunarInfo[y-1900] & i)? 1: 0;
+		   return(sum+leapDays(y));
+	}
 
 //获取闰月的天数
-function leapDays(y) {
-   if(leapMonth(y))  return((lunarInfo[y-1900] & 0x10000)? 30: 29);
-   else return(0);
-}
+	function leapDays(y) {
+		   if(leapMonth(y))  
+		   	return((lunarInfo[y-1900] & 0x10000)? 30: 29);
+		   else return(0);
+	}
 
 //判断当年是否闰月
-function leapMonth(y) {
-   return(lunarInfo[y-1900] & 0xf);
-}
+	function leapMonth(y) {
+	   	return(lunarInfo[y-1900] & 0xf);
+	}
 
 //获取闰月的月份
-function getLeapMonth(y){
-	var leapM=lunarInfo[y-1900] & 0xf;
-	if(leapM)
-		return parseInt(leapM);
-}
+	function getLeapMonth(y){
+		var leapM=lunarInfo[y-1900] & 0xf;
+		if(leapM)
+			return parseInt(leapM);
+	}
 
 //获取某年某个月的天数
-function monthDays(y,m) {
-   return( (lunarInfo[y-1900] & (0x10000>>m))? 30: 29 );
-}
+	function monthDays(y,m) {
+	  	 return( (lunarInfo[y-1900] & (0x10000>>m))? 30: 29 );
+	}
 
 //获取指定日期的农历
-function findLunar(someDay){
-	var startDay=new Date(1900,0,31);
-	var distance=1+parseInt(someDay-startDay)/(24*3600*1000);
-	var year=1900;
-	var month=1;
-	for(year;distance>lYearDays(year)&&distance>0;year++){
-		distance-=lYearDays(year);
-	}
-	var daysOfNextMonth=monthDays(year,month);
-	var flag=true;
-	for(month;distance>daysOfNextMonth&&distance>0;month++){
-		distance-=daysOfNextMonth;
-		if(month==getLeapMonth(year)&&flag){
-			daysOfNextMonth=leapDays(year);
-			month=month-1;
-			flag=false;
+	function findLunar(someDay){
+		var startDay=new Date(1900,0,31);
+		var distance=1+parseInt(someDay-startDay)/(24*3600*1000);
+		var year=1900;
+		var month=1;
+		for(year;distance>lYearDays(year)&&distance>0;year++){
+			distance-=lYearDays(year);
 		}
-		else{
-			daysOfNextMonth=monthDays(year,month+1);
+		var daysOfNextMonth=monthDays(year,month);
+		var flag=true;
+		for(month;distance>daysOfNextMonth&&distance>0;month++){
+			distance-=daysOfNextMonth;
+			if(month==getLeapMonth(year)&&flag){
+				daysOfNextMonth=leapDays(year);
+				month=month-1;
+				flag=false;
+			}
+			else{
+				daysOfNextMonth=monthDays(year,month+1);
+			}
 		}
+		if(leapMonth(year)&&month>getLeapMonth(year))
+			return [year,month,distance]
+		else	
+			return [year,month,distance];
 	}
-	if(leapMonth(year)&&month>getLeapMonth(year))
-		return [year,month,distance]
-	else	
-		return [year,month,distance];
-}
 //国际节假日标注
-function findsFestival(someDay){
-	var sYear=someDay.getFullYear();
-	var sMonth=someDay.getMonth()+1;
-	var sDay=someDay.getDate();
-	var index_sf=sMonth+"\-"+sDay;
-	for (name in sFtv){
-		if(name==index_sf){
-			return sFtv[name];
-			break;
+	function findsFestival(someDay){
+		var sYear=someDay.getFullYear();
+		var sMonth=someDay.getMonth()+1;
+		var sDay=someDay.getDate();
+		var index_sf=sMonth+"\-"+sDay;
+		for (name in sFtv){
+			if(name==index_sf){
+				return sFtv[name];
+				break;
+			}
+			}
+			return "";
 		}
+
+//中国传统节假日的标注
+	function findlFestival(someDay){
+		var LunarDay=findLunar(someDay);
+		var index_lf=LunarDay[1]+"\-"+LunarDay[2];
+		var n=someDay.getTime()+(3600*24*1000);
+		var beforeChunjie=new Date(n);
+		var chuxi=findLunar(beforeChunjie);
+		var if_chuxi=chuxi[1]+"\-"+chuxi[2];
+		if(if_chuxi=="1-1")
+			return "除夕";
+		else{
+		for(i in lFtv){
+			if(i==index_lf){
+				return lFtv[i];
+				break;
+				}
+			}
 		}
 		return "";
 	}
 
-//中国传统节假日的标注
-function findlFestival(someDay){
-	var LunarDay=findLunar(someDay);
-	var index_lf=LunarDay[1]+"\-"+LunarDay[2];
-	var n=someDay.getTime()+(3600*24*1000);
-	var beforeChunjie=new Date(n);
-	var chuxi=findLunar(beforeChunjie);
-	var if_chuxi=chuxi[1]+"\-"+chuxi[2];
-	if(if_chuxi=="1-1")
-		return "除夕";
-	else{
-	for(i in lFtv){
-		if(i==index_lf){
-			return lFtv[i];
-			break;
+//二十四节气标注
+	function findSolarTerm(someDay){
+		var Y=someDay.getFullYear();
+		var M=someDay.getMonth()+1;
+		var D=someDay.getDate();
+		if(Y==2016||Y==2017){
+			var index_term=Y+"\-"+M+"\-"+D;
+			for(day in solarTerms)
+			{
+				if(day==index_term)
+					return solarTerms[day];
 			}
 		}
+		return "";
 	}
-	return "";
-}
-
-//二十四节气标注
-function findSolarTerm(someDay){
-	var Y=someDay.getFullYear();
-	var M=someDay.getMonth()+1;
-	var D=someDay.getDate();
-	if(Y==2016||Y==2017){
-		var index_term=Y+"\-"+M+"\-"+D;
-		for(day in solarTerms)
-		{
-			if(day==index_term)
-				return solarTerms[day];
-		}
-	}
-	return "";
-}
-var nowaday=new Date(2016,2,7);

@@ -40,10 +40,8 @@ input,select{
 	height:40px;
 	font-size: 16px;
 	font-family: "黑体";
-
 }
 .near{
-	margin-top: 0;
 	border:solid #bbb 1px;
 	font-family: "微软雅黑";
 	font-weight: bold;
@@ -53,7 +51,7 @@ input,select{
 	background-color: rgb(243,217,203)
 }
 #backToday{
-	border:solid rgba(200,200,200,.4) 1px;
+	border:solid #bbb 1px;
 	background-color: rgb(255,255,255);
 	width: 90px;
 	font-size: 16px;
